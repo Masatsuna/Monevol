@@ -6,11 +6,20 @@ package org.t_robop.masatsuna.monevol;
 public class Data {
 
 
+
+    int id;
     int year;
     int month;
     int date;
     String appname;
     int billing;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public  int getBilling() {
         return billing;

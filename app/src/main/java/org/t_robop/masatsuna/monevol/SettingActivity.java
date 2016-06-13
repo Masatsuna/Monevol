@@ -68,14 +68,21 @@ public class SettingActivity extends AppCompatActivity {
         switch (view.getId()){
 
             case R.id.insert:
-                DataBase.insertData(2016, 6, 10, "app", 1000,this);
+                testData.setAppname("aaaaa");
+                testData.setYear(2015);
+                testData.setMonth(11);
+                testData.setDate(30);
+                testData.setBilling(10);
+                DataBase.insertData(testData,this);
                 break;
 
             case R.id.open:
                 testData.setAppname("aaaaa");
                 testData.setDate(30);
                 testData.setBilling(10);
-                DataBase.updateData(1,testData);
+                //DataBase.updateData(1,testData);
+                ArrayList<Data> test=  DataBase.openData(this);
+                Log.d("","");
                 //DataBase.deleteData(1);
                 //DataBase.openData();
                 break;
