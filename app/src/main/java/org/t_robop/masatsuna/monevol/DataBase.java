@@ -24,33 +24,35 @@ public class DataBase {
         mydb = hlpr.getWritableDatabase();
     }
 
-    public static void insertData(int year, int month, int date, String appName, int billing , Context context) {
+    public static void insertData(Data data, Context context) {
         hlpr = new MySQLiteOpenHelper(context);
         mydb = hlpr.getWritableDatabase();
         values = new ContentValues();
-        values.put("year", year);
-        values.put("month", month);
-        values.put("date", date);
-        values.put("appname", appName);
-        values.put("billing", billing);
+        values.put("year", data.getYear());
+        values.put("month", data.getMonth());
+        values.put("date", data.getDate());
+        values.put("appname", data.getAppname());
+        values.put("billing", data.getBilling());
         mydb.insert("billingTable", null, values);
         mydb.close();
     }
 
-    public static ArrayList openData(){
+    public static ArrayList openData(Context context){
         ArrayList <Data> DataArray=new ArrayList<Data>();
         Data data = new Data();
+        hlpr = new MySQLiteOpenHelper(context);
+        mydb = hlpr.getWritableDatabase();
         cursor = mydb.rawQuery(openDB,null);
-        if(cursor.moveToNext()) {
-            int i = 0;
+        while(cursor.moveToNext()) {
+            data.setId(cursor.getColumnIndex("_id"));
             data.setYear(cursor.getColumnIndex("year"));
             data.setMonth(cursor.getColumnIndex("month"));
             data.setDate(cursor.getColumnIndex("date"));
             data.setAppname(cursor.getString(cursor.getColumnIndex("appname")));
             data.setBilling(cursor.getColumnIndex("billing"));
             DataArray.add(data);
-            i++;
         }
+        mydb.close();
 
         return DataArray;
     }
