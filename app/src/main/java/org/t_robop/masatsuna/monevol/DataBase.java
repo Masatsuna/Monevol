@@ -18,7 +18,7 @@ public class DataBase {
     static String openDB = "select * from billingTable order by year desc, month desc, date desc";
     final static String TABLE_NAME = "billingTable";
 
-
+/////////////////////////aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/////////////////////////////
     public DataBase(Context context) {
         hlpr = new MySQLiteOpenHelper(context);
         mydb = hlpr.getWritableDatabase();
