@@ -1,11 +1,10 @@
 package org.t_robop.masatsuna.monevol;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +22,7 @@ public class SettingActivity extends AppCompatActivity {
     static Cursor cursor;
     static String openDB = "select * from billingTable order by year desc, month desc, date desc";
     DataBase db;
+    Data testData = new Data();
 
 
     @Override
@@ -34,6 +34,7 @@ public class SettingActivity extends AppCompatActivity {
         hlpr = new MySQLiteOpenHelper(this);
         mydb = hlpr.getWritableDatabase();
         db = new DataBase(this);
+
 
     }
     @Override
@@ -71,7 +72,12 @@ public class SettingActivity extends AppCompatActivity {
                 break;
 
             case R.id.open:
-                DataBase.openData();
+                testData.setAppname("aaaaa");
+                testData.setDate(30);
+                testData.setBilling(10);
+                DataBase.updateData(1,testData);
+                //DataBase.deleteData(1);
+                //DataBase.openData();
                 break;
         }
     }
