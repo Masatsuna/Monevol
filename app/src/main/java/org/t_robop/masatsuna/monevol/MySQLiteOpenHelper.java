@@ -11,7 +11,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
     static final String dbName = "Billing.db";  //データベースの名前
     static final int dbVersion = 1;             //データベースのバージョン
-    static final String create = "create table billingTable(year integer, month integer, date integer, appname text, billing integer)";    //データベースを作成するSQL文
+    static final String create = "create table billingTable(_id integer primary key not null,year integer, month integer, date integer, appname text, billing integer)";    //データベースを作成するSQL文
     static final String drop = "drop table billingTable";   //データベースを下ろすSQL文
 
 
