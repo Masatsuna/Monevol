@@ -77,16 +77,19 @@ public class SettingActivity extends AppCompatActivity {
                 break;
 
             case R.id.open:
-                testData.setAppname("aaaaa");
-                testData.setDate(30);
-                testData.setBilling(10);
-                //DataBase.updateData(1,testData);
+                Data aaa =new Data();
+                aaa.setAppname("aaaaa");
+                aaa.setDate(30);
+                aaa.setBilling(10);
+                DataBase.updateData(1,aaa);
                 ArrayList<Data> test=  DataBase.openData(this);
                 Log.d("","");
                 //DataBase.deleteData(1);
                 //DataBase.openData();
                 break;
         }
+       // Log.d("aaa",String.valueOf(testData));
+
     }
 
     public void insertData(int year, int month, int date, String appName, int billing) {
