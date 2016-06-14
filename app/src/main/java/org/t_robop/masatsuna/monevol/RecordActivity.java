@@ -1,10 +1,11 @@
 package org.t_robop.masatsuna.monevol;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 public class RecordActivity extends AppCompatActivity {
@@ -15,7 +16,12 @@ public class RecordActivity extends AppCompatActivity {
         //setContentViewより前にWindowにActionBar表示を設定
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_record);
+
+
+
+
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // メニューの要素を追加
@@ -35,10 +41,27 @@ public class RecordActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getTitle().equals("Normal item")){
+        if (item.getTitle().equals("Normal item")) {
             Toast.makeText(this, "Selected Item: " + item.getTitle(), Toast.LENGTH_SHORT).show();
         }
 
         return true;
     }
+
+
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+
+
+//*        if (buttonView.getId() == R.id.toggleButton) {
+        //     Log.i("onCheckedChanged", "clicked R.id.toggleButton2");
+        //tb.setChecked(false);
+        //   } else if (buttonView.getId() == R.id.toggleButton2) {
+        //       Log.i("onCheckedChanged", "clicked R.id.toggleButton");
+        //tb2.setChecked(false);
+    }
 }
+
+
+
+
