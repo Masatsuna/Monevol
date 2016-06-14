@@ -20,19 +20,21 @@ public class GraphActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // メニューの要素を追加
-        menu.add("ホーム");
-        menu.add("購入履歴");
+        MenuItem actionItem = menu.add("ホーム");
+
+        menu.add("グラフ");
+        menu.add("履歴");
         menu.add("設定");
 
 
         // メニューの要素を追加して取
-        MenuItem actionItem = menu.add("Action Button");
+       // MenuItem actionItem = menu.add("Action Button");
 
         // SHOW_AS_ACTION_IF_ROOM:余裕があれば表示
-        actionItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+       // actionItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
         // アイコンを設定
-        actionItem.setIcon(android.R.drawable.ic_menu_share);
+        //actionItem.setIcon(android.R.drawable.ic_menu_share);
 
         return true;
     }
