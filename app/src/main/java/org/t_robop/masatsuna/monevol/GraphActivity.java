@@ -21,8 +21,7 @@ public class GraphActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // メニューの要素を追加
         MenuItem actionItem = menu.add("ホーム");
-
-        menu.add("グラフ");
+        
         menu.add("履歴");
         menu.add("設定");
 
@@ -45,7 +44,7 @@ public class GraphActivity extends AppCompatActivity {
             Intent intent =new Intent(getApplicationContext(),HomeActivity.class);
             startActivity(intent);
         }
-        else if (item.getTitle().equals("購入履歴")){
+        else if (item.getTitle().equals("履歴")){
             Intent intent =new Intent(getApplicationContext(),RecordActivity.class);
             startActivity(intent);
         }
