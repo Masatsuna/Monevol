@@ -15,7 +15,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     static final String drop = "drop table billingTable";   //データベースを下ろすSQL文
 
 
-    //インスタンス
+    //コンストラクタ
     public MySQLiteOpenHelper(Context context) {
         super(context, dbName, null, dbVersion);
     }

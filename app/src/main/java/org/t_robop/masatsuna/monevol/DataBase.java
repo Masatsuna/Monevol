@@ -21,7 +21,7 @@ public class DataBase {
     //static String openDB = "select * from billingTable order by year desc, month desc, date desc";
     static String openDB = "select * from billingTable order by _id asc";
     final static String TABLE_NAME = "billingTable";
-
+    //コンストラクタ（いらないかもしれない）
     public DataBase(Context context) {
         hlpr = new MySQLiteOpenHelper(context);
         mydb = hlpr.getWritableDatabase();
@@ -43,24 +43,24 @@ public class DataBase {
 
     //全てのデータを取得するメソッド
     public static ArrayList openData(Context context){
-        ArrayList <Data> DataArray=new ArrayList<>();
+        ArrayList <Data> DataArray=new ArrayList<>();   //返すデータを入れるコレクション
         hlpr = new MySQLiteOpenHelper(context);
         mydb = hlpr.getWritableDatabase();
-        cursor = mydb.rawQuery(openDB,null);
+        cursor = mydb.rawQuery(openDB,null);    //データをcursorにidを昇順でソートして格納
         while(cursor.moveToNext()) {
             //ここで生成しないと、同じデータが追加され続ける
             Data data = new Data();
-            //ID
+            //Dataクラスのidにセット
             data.setId(cursor.getInt(0));
-            //yaer
+            //Dataクラスのyearにセット
             data.setYear(cursor.getInt(1));
-            //
+            //Dataクラスのmonthにセット
             data.setMonth(cursor.getInt(2));
-            //
+            //Dataクラスのdateにセット
             data.setDate(cursor.getInt(3));
-            //
+            //Dataクラスのappnameにセット
             data.setAppname(cursor.getString(cursor.getColumnIndex("appname")));
-            //
+            //Dataクラスのbillingにセット
             data.setBilling(cursor.getInt(5));
             //dataを配列に追加
             DataArray.add(data);
@@ -74,25 +74,25 @@ public class DataBase {
     public static ArrayList yearSelect(int year,Context context){
         String sqlstr = "select *"
                 +"from "+TABLE_NAME
-                + " where year like" +"'%"+year+"%'"
-                + "order by year asc, month asc, date asc";
+                + " where year = " + year
+                + " order by year asc, month asc, date asc";
         ArrayList <Data> DataArray=new ArrayList<>();
         hlpr = new MySQLiteOpenHelper(context);
         mydb = hlpr.getWritableDatabase();
         cursor = mydb.rawQuery(sqlstr,null);
         while(cursor.moveToNext()) {
             Data data = new Data();
-            //ID
+            //Dataクラスのidにセット
             data.setId(cursor.getInt(0));
-            //yaer
+            //Dataクラスのyearにセット
             data.setYear(cursor.getInt(1));
-            //
+            //Dataクラスのmonthにセット
             data.setMonth(cursor.getInt(2));
-            //
+            //Dataクラスのdateにセット
             data.setDate(cursor.getInt(3));
-            //
+            //Dataクラスのappnameにセット
             data.setAppname(cursor.getString(cursor.getColumnIndex("appname")));
-            //
+            //Dataクラスのbillingにセット
             data.setBilling(cursor.getInt(5));
             //listに追加
             DataArray.add(data);
@@ -103,6 +103,7 @@ public class DataBase {
     }
     //年と月で検索するメソッド(ソート済み)
     public static ArrayList yearMonthSelect(int year,int month,Context context){
+        //年と月の条件付きで取得するSQL文
         String sqlstr = "select *"
                 +"from "+TABLE_NAME
                 + " where year = "+year+" AND month = "+month
@@ -113,17 +114,17 @@ public class DataBase {
         cursor = mydb.rawQuery(sqlstr,null);
         while(cursor.moveToNext()) {
             Data data = new Data();
-            //ID
+            //Dataクラスのidにセット
             data.setId(cursor.getInt(0));
-            //yaer
+            //Dataクラスのyearにセット
             data.setYear(cursor.getInt(1));
-            //
+            //Dataクラスのmonthにセット
             data.setMonth(cursor.getInt(2));
-            //
+            //Dataクラスのdateにセット
             data.setDate(cursor.getInt(3));
-            //
+            //Dataクラスのappnameにセット
             data.setAppname(cursor.getString(cursor.getColumnIndex("appname")));
-            //
+            //Dataクラスのbillingにセット
             data.setBilling(cursor.getInt(5));
             //listに追加
             DataArray.add(data);
@@ -138,23 +139,23 @@ public class DataBase {
     public static Data idSelect(int id,Context context){
         String sqlstr = "select *"
                 +"from "+TABLE_NAME
-                +" where _id like" +"'%"+id+"%'";
+                +" where _id = " + id;
         hlpr = new MySQLiteOpenHelper(context);
         mydb = hlpr.getWritableDatabase();
         cursor = mydb.rawQuery(sqlstr,null);
         cursor.moveToNext();
         Data data = new Data();
-        //ID
+        //Dataクラスのidにセット
         data.setId(cursor.getInt(0));
-        //yaer
+        //Dataクラスのyearにセット
         data.setYear(cursor.getInt(1));
-        //
+        //Dataクラスのmonthにセット
         data.setMonth(cursor.getInt(2));
-        //
+        //Dataクラスのdateにセット
         data.setDate(cursor.getInt(3));
-        //
+        //Dataクラスのappnameにセット
         data.setAppname(cursor.getString(cursor.getColumnIndex("appname")));
-        //
+        //Dataクラスのbillingにセット
         data.setBilling(cursor.getInt(5));
         mydb.close();
         return data;

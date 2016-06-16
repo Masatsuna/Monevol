@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="checkbox_preference"
+        android:title="通知する" />
+
+    <EditTextPreference
+        android:key="editText_preference"
+        android:title="上限設定"
+        android:summary=""
+        android:dialogTitle="上限設定" />
+
+    <EditTextPreference
+        android:key="editText_preference2"
+        android:title="支出先登録"
+        android:dialogTitle="支出先登録" />
+
+</PreferenceScreen>
