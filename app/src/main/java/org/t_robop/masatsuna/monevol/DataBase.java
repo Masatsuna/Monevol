@@ -4,66 +4,193 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 
 /**
  * Created by Masatsuna on 2016/06/07.
  */
-public abstract class DataBase extends Context {
-    static final String dbName = "Billing.db";  //データベースの名前
-    static final int dbVersion = 1;             //データベースのバージョン
-    static final String create = "create table billingTable(year integer, month integer, day integer, appname text, billing integer)";    //データベースを作成するSQL文
-    static final String drop = "drop table billingTable";   //データベースを下ろすSQL文
+
+//TODO このCLASSには極力弄らないこと、弄る場合は新しくメソッドを作成し、その中だけで
+public class DataBase {
     static SQLiteDatabase mydb; //MySQLiteOpenHelperの変数
     static MySQLiteOpenHelper hlpr;
     static ContentValues values;
-    Cursor cursor;
-
-    public void insertData(int year, int month, int day, String appName, int billing) {
-        hlpr = new MySQLiteOpenHelper(this);
-        mydb =hlpr.getWritableDatabase();
-        values = new ContentValues();
-        values.put("year", year);
-        values.put("month", month);
-        values.put("day", day);
-        values.put("appName", appName);
-        values.put("billing", billing);
-        mydb.insert("billingTable", null, values);
-        cursor = mydb.query("billingTable", new String[] {"year", "month", "day", "appName", "billing"}, null, null, null, null, null);
+    static Cursor cursor;
+    //orderで並び順を指定 ASCで昇順  DESCで降順
+    //static String openDB = "select * from billingTable order by year desc, month desc, date desc";
+    static String openDB = "select * from billingTable order by _id asc";
+    final static String TABLE_NAME = "billingTable";
+    //コンストラクタ（いらないかもしれない）
+    public DataBase(Context context) {
+        hlpr = new MySQLiteOpenHelper(context);
+        mydb = hlpr.getWritableDatabase();
     }
 
-    public String [][] opendData(){
-        String[][] data;
-        data = new String[5][];
-        cursor = mydb.query("billingTable", new String[]{"year", "month", "day", "appname", "billing"}, null, null, null, null, null);
-        while(cursor.moveToNext()) {
-            int i = 0;
-            data[0][i] = cursor.getString(cursor.getColumnIndex("year"));
-            data[1][i] = cursor.getString(cursor.getColumnIndex("month"));
-            data[2][i] = cursor.getString(cursor.getColumnIndex("day"));
-            data[3][i] = cursor.getString(cursor.getColumnIndex("appName"));
-            data[4][i] = cursor.getString(cursor.getColumnIndex("billing"));
-            i++;
-        }
+    //データを追加するメソッド
+    public static void insertData(Data data, Context context) {
+        hlpr = new MySQLiteOpenHelper(context);
+        mydb = hlpr.getWritableDatabase();
+        values = new ContentValues();
+        values.put("year", data.getYear());
+        values.put("month", data.getMonth());
+        values.put("date", data.getDate());
+        values.put("appname", data.getAppname());
+        values.put("billing", data.getBilling());
+        mydb.insert("billingTable", null, values);
+        mydb.close();
+    }
 
+    //全てのデータを取得するメソッド
+    public static ArrayList openData(Context context){
+        ArrayList <Data> DataArray=new ArrayList<>();   //返すデータを入れるコレクション
+        hlpr = new MySQLiteOpenHelper(context);
+        mydb = hlpr.getWritableDatabase();
+        cursor = mydb.rawQuery(openDB,null);    //データをcursorにidを昇順でソートして格納
+        while(cursor.moveToNext()) {
+            //ここで生成しないと、同じデータが追加され続ける
+            Data data = new Data();
+            //Dataクラスのidにセット
+            data.setId(cursor.getInt(0));
+            //Dataクラスのyearにセット
+            data.setYear(cursor.getInt(1));
+            //Dataクラスのmonthにセット
+            data.setMonth(cursor.getInt(2));
+            //Dataクラスのdateにセット
+            data.setDate(cursor.getInt(3));
+            //Dataクラスのappnameにセット
+            data.setAppname(cursor.getString(cursor.getColumnIndex("appname")));
+            //Dataクラスのbillingにセット
+            data.setBilling(cursor.getInt(5));
+            //dataを配列に追加
+            DataArray.add(data);
+        }
+        //dbを閉じる
+        mydb.close();
+
+        return DataArray;
+    }
+    //年を検索するメソッド
+    public static ArrayList yearSelect(int year,Context context){
+        String sqlstr = "select *"
+                +"from "+TABLE_NAME
+                + " where year = " + year
+                + " order by year asc, month asc, date asc";
+        ArrayList <Data> DataArray=new ArrayList<>();
+        hlpr = new MySQLiteOpenHelper(context);
+        mydb = hlpr.getWritableDatabase();
+        cursor = mydb.rawQuery(sqlstr,null);
+        while(cursor.moveToNext()) {
+            Data data = new Data();
+            //Dataクラスのidにセット
+            data.setId(cursor.getInt(0));
+            //Dataクラスのyearにセット
+            data.setYear(cursor.getInt(1));
+            //Dataクラスのmonthにセット
+            data.setMonth(cursor.getInt(2));
+            //Dataクラスのdateにセット
+            data.setDate(cursor.getInt(3));
+            //Dataクラスのappnameにセット
+            data.setAppname(cursor.getString(cursor.getColumnIndex("appname")));
+            //Dataクラスのbillingにセット
+            data.setBilling(cursor.getInt(5));
+            //listに追加
+            DataArray.add(data);
+        }
+        mydb.close();
+
+        return DataArray;
+    }
+    //年と月で検索するメソッド(ソート済み)
+    public static ArrayList yearMonthSelect(int year,int month,Context context){
+        //年と月の条件付きで取得するSQL文
+        String sqlstr = "select *"
+                +"from "+TABLE_NAME
+                + " where year = "+year+" AND month = "+month
+                + " order by year asc, month asc, date asc";
+        ArrayList <Data> DataArray=new ArrayList<>();
+        hlpr = new MySQLiteOpenHelper(context);
+        mydb = hlpr.getWritableDatabase();
+        cursor = mydb.rawQuery(sqlstr,null);
+        while(cursor.moveToNext()) {
+            Data data = new Data();
+            //Dataクラスのidにセット
+            data.setId(cursor.getInt(0));
+            //Dataクラスのyearにセット
+            data.setYear(cursor.getInt(1));
+            //Dataクラスのmonthにセット
+            data.setMonth(cursor.getInt(2));
+            //Dataクラスのdateにセット
+            data.setDate(cursor.getInt(3));
+            //Dataクラスのappnameにセット
+            data.setAppname(cursor.getString(cursor.getColumnIndex("appname")));
+            //Dataクラスのbillingにセット
+            data.setBilling(cursor.getInt(5));
+            //listに追加
+            DataArray.add(data);
+        }
+        mydb.close();
+
+        return DataArray;
+    }
+
+
+    //idから一つの行を検索するメソッド
+    public static Data idSelect(int id,Context context){
+        String sqlstr = "select *"
+                +"from "+TABLE_NAME
+                +" where _id = " + id;
+        hlpr = new MySQLiteOpenHelper(context);
+        mydb = hlpr.getWritableDatabase();
+        cursor = mydb.rawQuery(sqlstr,null);
+        cursor.moveToNext();
+        Data data = new Data();
+        //Dataクラスのidにセット
+        data.setId(cursor.getInt(0));
+        //Dataクラスのyearにセット
+        data.setYear(cursor.getInt(1));
+        //Dataクラスのmonthにセット
+        data.setMonth(cursor.getInt(2));
+        //Dataクラスのdateにセット
+        data.setDate(cursor.getInt(3));
+        //Dataクラスのappnameにセット
+        data.setAppname(cursor.getString(cursor.getColumnIndex("appname")));
+        //Dataクラスのbillingにセット
+        data.setBilling(cursor.getInt(5));
+        mydb.close();
         return data;
     }
 
-    //SQLiteOpenHelperの継承クラス
-    public static class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
-        //インスタンス
-        public MySQLiteOpenHelper(DataBase context) {
-            super(context, dbName, null, dbVersion);
-        }
+    //データを削除する時のメソッド
+    public static void deleteData(int id,Context context) {
+        hlpr = new MySQLiteOpenHelper(context);
+        mydb = hlpr.getWritableDatabase();
+        mydb.delete(TABLE_NAME, "_id = " + id, null);
+    }
 
-        public void onCreate(SQLiteDatabase db) {
-            db.execSQL(create);
+    //行のデータを更新する時のメソッド
+    public static void updateData(int id,Data data,Context context){
+        hlpr = new MySQLiteOpenHelper(context);
+        mydb = hlpr.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        if (data.getYear()!=0){
+            cv.put("year",data.getYear());
         }
-
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL(drop);
-            onCreate(db);
+        if (data.getMonth()!=0){
+            cv.put("month",data.getMonth());
         }
+        if (data.getDate()!=0){
+            cv.put("date",data.getDate());
+        }
+        if (data.getAppname()!=null){
+            cv.put("appname",data.getAppname());
+        }
+        //TODO 現状の仕様だと、0円と指定された場合データが更新されない
+        if (data.getBilling()!=0){
+            cv.put("billing",data.getBilling());
+        }
+        mydb.update(TABLE_NAME, cv, "_id ="+id, null);
+        mydb.close();
     }
 }
