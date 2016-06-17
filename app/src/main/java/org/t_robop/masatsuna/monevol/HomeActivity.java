@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
 
         //ナビゲーションドロワーの関数呼び出し
-        drawer(); 
+        drawer();
 
         //円グラフの関数呼び出し
         piechart();
