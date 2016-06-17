@@ -7,13 +7,12 @@ public class Data {
 
 
 
-    private int id;
-    private int year;
-    private int month;
-    private int date;
-    private String appname;
-    private int billing;
-
+    int id;
+    int year;
+    int month;
+    int date;
+    String appname;
+    int billing;
     public int getId() {
         return id;
     }
