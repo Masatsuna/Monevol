@@ -18,6 +18,7 @@ public class SettingActivity extends AppCompatActivity {
 
     static SQLiteDatabase mydb; //MySQLiteOpenHelperの変数
     static MySQLiteOpenHelper hlpr;
+    static ArrayList yearMonthSelect;
     static ContentValues values;
     static Cursor cursor;
     static String openDB = "select * from billingTable order by year desc, month desc, date desc";
@@ -75,6 +76,7 @@ public class SettingActivity extends AppCompatActivity {
                 testData.setBilling(10);
                 DataBase.insertData(testData,this);
                 break;
+
 
             case R.id.open:
                 testData.setAppname("aaaaa");
