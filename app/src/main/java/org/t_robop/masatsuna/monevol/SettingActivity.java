@@ -19,6 +19,7 @@ public class SettingActivity extends AppCompatActivity {
     Intent intent;
 
     //テストです
+    //どうせ壊れる
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
