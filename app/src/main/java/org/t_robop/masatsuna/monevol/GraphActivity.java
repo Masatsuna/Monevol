@@ -369,7 +369,7 @@ public class GraphActivity extends AppCompatActivity {
 
         barDataSets.add(valuesADataSet);
 
-/*        // valueB
+/*        // valueBb
         ArrayList<BarEntry> valuesB = new ArrayList<>();
         valuesB.add(new BarEntry(200, 0));
         valuesB.add(new BarEntry(300, 1));
